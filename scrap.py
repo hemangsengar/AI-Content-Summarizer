@@ -26,8 +26,8 @@ def scrape():
         soup = BeautifulSoup(responce.text,"html.parser")
         
         for ele in soup.find_all('div', class_ = 'quote'):
-            quote = ele.find('span', class_ ='text').text
-            author = ele.find('small', class_ ='author').text
+            quote = ele.find('span', class_ ='text').text.lower()
+            author = ele.find('small', class_ ='author').text.lower()
             quotes.append({'quote':quote,'author':author})
         
         next_btn = soup.find('li',class_ = 'next')
