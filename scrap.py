@@ -26,8 +26,8 @@ def scrape():
         soup = BeautifulSoup(responce.text,"html.parser")
         
         for ele in soup.find_all('div', class_ = 'quote'):
-            quote = ele.find('span', class_ ='text').text.lower()
-            author = ele.find('small', class_ ='author').text.lower()
+            quote = ele.find('span', class_ ='text').text.lower().strip()
+            author = ele.find('small', class_ ='author').text.lower().strip()
             quotes.append({'quote':quote,'author':author})
         
         next_btn = soup.find('li',class_ = 'next')
@@ -36,6 +36,7 @@ def scrape():
             url = next_btn.a['href']
         else:
             url = None
+            print("Scrapping Completed!")
 
     filename = 'quotes.csv'
     with open(filename, 'w', newline='', encoding='utf-8') as f:
