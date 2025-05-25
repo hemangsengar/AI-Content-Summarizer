@@ -29,5 +29,3 @@ def insert_quote(quote, author, raw_content=None, preprocessed_content=None, ai_
 
 
 
-if __name__ == '__main__':
-    db()
