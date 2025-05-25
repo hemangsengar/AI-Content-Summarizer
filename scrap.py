@@ -1,23 +1,14 @@
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
-import csv
+from database import *
 
-
-'''
-set PYTHONIOENCODING=utf-8
-
-run in terminal to get the the character which does not support the default terminal encoding
-
-'''
 
 
 def scrape():
     base_url = "https://quotes.toscrape.com/"
     url = "page/1/"
-
-    quotes = []
-
+    
     while url:
         fullURL = urljoin(base_url,url)
         print(f"Scrapping: {fullURL}")
@@ -28,7 +19,7 @@ def scrape():
         for ele in soup.find_all('div', class_ = 'quote'):
             quote = ele.find('span', class_ ='text').text.lower().strip()
             author = ele.find('small', class_ ='author').text.lower().strip()
-            quotes.append({'quote':quote,'author':author})
+            insert_quote(quote, author)
         
         next_btn = soup.find('li',class_ = 'next')
 
@@ -38,12 +29,7 @@ def scrape():
             url = None
             print("Scrapping Completed!")
 
-    filename = 'quotes.csv'
-    with open(filename, 'w', newline='', encoding='utf-8') as f:
-        w = csv.DictWriter(f, ['quote','author'])
-        w.writeheader()
-        for quote in quotes:
-            w.writerow(quote)
+    
 
 
 if __name__ == "__main__":

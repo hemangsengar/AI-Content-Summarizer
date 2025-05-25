@@ -1,3 +1,13 @@
 .venv
 
 quotes.csv
+
+
+Data.db
+
+__pycache__
+
+#testing and learning
+test.py
+
+articles.db
