@@ -2,14 +2,19 @@ from database import *
 from scrap import *
 import re
 from Gemini import *
+import string
+
+
+def clean_text(text:str):
+    text = text.lower()  # Lowercase
+    text = re.sub(r'\d+', '', text)  # Remove numbers
+    text = text.translate(str.maketrans('', '', string.punctuation))  # Remove punctuation
+    text = re.sub(r'\W', ' ', text)  # Remove special characters
+    text = BeautifulSoup(text, "html.parser").get_text()  # Remove HTML tags
+    return text
 
 
 
-def preprocess_text(text: str) -> str:
-    # Remove HTML tags, normalize whitespace, convert to lowercase
-    text = re.sub(r'<[^>]+>', '', text)  # Remove HTML
-    text = re.sub(r'\s+', ' ', text)     # Normalize whitespace
-    return text.lower().strip()
 
 
 
@@ -19,23 +24,24 @@ def main():
     
     # Step 1: Scrape articles
     print("Starting Data Scrapping!")
-    articles = scrape_articles('quotes', limit=5)
 
-    if articles:
-        print("Data Scrapped!")
+    articles = scrape_articles('quotes', limit=2)
 
-    else:
-        print("Error")
+    
+    print("Data Scrapped!")
+
+
+    
     
 
     print("Summarising Content!")
 
     for article in articles:
         # Step 2: Preprocess
-        cleaned_content = preprocess_text(article['content'])
+        cleaned_content = clean_text(article['content'])
         
         # Step 3: Summarize with Gemini
-        summary = summarize_text(cleaned_content)
+        summary = clean_text(summarize_text(cleaned_content))
 
         
         # Step 4: Store in database

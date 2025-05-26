@@ -31,5 +31,25 @@ def store_article(data: dict[str, str]):
     conn.commit()
     conn.close()
 
+    
+    
+    
+    
+    
+def get_summary_by_id(article_id: int):
+    conn = sqlite3.connect('articles.db')
+    c = conn.cursor()
+    c.execute('''SELECT summary FROM Data WHERE id = ?''', (article_id, ))
+
+    result = c.fetchone()
+    print(result[0])
+    conn.commit()
+    conn.close()
+
+
+
+if __name__ == "__main__":
+    get_summary_by_id(article_id=1)
+    
 
 
