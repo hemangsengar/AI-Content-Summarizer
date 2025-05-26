@@ -26,37 +26,50 @@ SITE_CONFIGS = {
     }
 }
 
-def scrape_articles():
-    base_url = "https://quotes.toscrape.com/"
-    url = "page/1/"
+def scrape_articles(site_name: str, limit: int = 5):
+    
+    if site_name not in SITE_CONFIGS:
+        raise ValueError(f"Site '{site_name}' not configured")
+    
+    config = SITE_CONFIGS[site_name]
     articles = []
-    while url:
-        fullURL = urljoin(base_url,url)
+    url = config['start_page']
+    while url and len(articles) < limit:
+        fullURL = urljoin(config['base_url'],url)
         print(f"Scrapping: {fullURL}")
 
         response = requests.get(fullURL)
         soup = BeautifulSoup(response.text,"html.parser")
         
-        for ele in soup.find_all('div', class_ = 'quote'):
-            quote = ele.find('span', class_ ='text').text.lower().strip()
-            author = ele.find('small', class_ ='author').text.lower().strip()
-            raw = ele.find('span', class_ ='text').text            
-            insert_quote(quote, author, raw_content=raw)
+        for ele in soup.find_all(config['article_selector']):
+            title_elem = ele.select_one(config['title_selector'])
+            author_elem = ele.select_one(config['author_selector'])
+            content_elem = ele.select_one(config['content_selector'])
+                      
+            if title_elem and content_elem:
+                articles.append({
+                    'title': title_elem.get_text(strip=True),
+                    'author': author_elem.get_text(strip=True) if author_elem else 'Unknown',
+                    'content': content_elem.get_text(strip=True),
+                    'source_url': fullURL,
+                    'site': site_name
+                })
         
-        next_btn = soup.find('li',class_ = 'next')
+        next_btn = soup.select_one(config['next_selector'])
 
         if next_btn and next_btn.a:
             url = next_btn.a['href']
         else:
             url = None
             print("Scrapping Completed!")
+    return articles
 
     
 
 
 if __name__ == "__main__":
     db()
-    scrape()
+    scrape_articles('hackernews')
     
     
     
