@@ -15,17 +15,13 @@ def clean_text(text:str):
 
 
 
-
-
-
-
 def main():
     create_articles_table()
     
     # Step 1: Scrape articles
     print("Starting Data Scrapping!")
 
-    articles = scrape_articles('quotes', limit=2)
+    articles = scrape_articles('thehackernews', limit=5)
 
     
     print("Data Scrapped!")
@@ -40,7 +36,7 @@ def main():
         # Step 2: Preprocess
         cleaned_content = clean_text(article['content'])
         
-        # Step 3: Summarize with Gemini
+        # Step 3: Summarize with Gemini and Preprocess
         summary = clean_text(summarize_text(cleaned_content))
 
         
