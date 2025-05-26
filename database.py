@@ -1,29 +1,33 @@
 import sqlite3
 
 
-def db():
-    conn = sqlite3.connect('Data.db')
+def create_articles_table():
+    conn = sqlite3.connect('articles.db')
     c = conn.cursor()
 
     c.execute('''
         CREATE TABLE IF NOT EXISTS Data (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            quote TEXT,
+            title TEXT,
             author TEXT,
-            raw_content TEXT,
-            preprocessed_content TEXT,
-            ai_summary TEXT
+            content TEXT,
+            summary TEXT,
+            source_url TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             
         )
     ''')
+    conn.commit()
+    conn.close()
 
-def insert_quote(quote, author, raw_content=None, preprocessed_content=None, ai_summary=None):
-    conn = sqlite3.connect('Data.db')
+def store_article(data: dict[str, str]):
+    conn = sqlite3.connect('articles.db')
     c = conn.cursor()
     c.execute('''
-        INSERT INTO Data (quote, author, raw_content, preprocessed_content, ai_summary)
+        INSERT INTO Data (title, author, content, summary, source_url)
         VALUES (?, ?, ?, ?, ?)
-    ''', (quote, author,raw_content, preprocessed_content, ai_summary))
+    ''', (data['title'], data['author'], data['content'], 
+          data['summary'], data['source_url']))
     conn.commit()
     conn.close()
 
