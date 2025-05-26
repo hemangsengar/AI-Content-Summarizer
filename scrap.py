@@ -25,6 +25,11 @@ SITE_CONFIGS = {
     }
 }
 
+
+def clean_text(text):
+    return text.encode('ascii', 'ignore').decode()
+
+
 def scrape_articles(site_name: str, limit: int = 5):
     if site_name not in SITE_CONFIGS:
         raise ValueError(f"Site '{site_name}' not configured")
@@ -74,9 +79,9 @@ def scrape_articles(site_name: str, limit: int = 5):
                     title_tag = article_soup.find("h1", class_="story-title")
                     content_div = article_soup.find("div", class_="articlebody")
 
-                    title = title_tag.text.strip() if title_tag else "N/A"
+                    title = clean_text(title_tag.text.strip()) if title_tag else "N/A"
                     paragraphs = content_div.find_all("p") if content_div else []
-                    content = "\n".join(p.text.strip() for p in paragraphs if p.text.strip())
+                    content = clean_text("\n".join(p.text.strip() for p in paragraphs if p.text.strip()))
 
                     articles.append({
                         'title': title,
