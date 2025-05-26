@@ -37,7 +37,7 @@ def scrape_articles(site_name: str, limit: int = 5):
     url = config['start_page']
     while url and len(articles) < limit:
         fullURL = urljoin(config['base_url'],url)
-        print("Starting Scrapping Data!")
+        
 
         response = requests.get(fullURL)
         soup = BeautifulSoup(response.text,"html.parser")
@@ -50,7 +50,7 @@ def scrape_articles(site_name: str, limit: int = 5):
                 author = ele.find('small', class_='author').text.strip()
                 
                 articles.append({
-                    'title': quote[:50] + '...' if len(quote) > 50 else quote,  # Short title
+                    'title': quote[:25] + '...' if len(quote) > 25 else quote,  # Short title
                     'author': author,
                     'content': quote,
                     'source_url': fullURL,
