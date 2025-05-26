@@ -18,6 +18,12 @@ def main():
     
     # Step 1: Scrape articles
     articles = scrape_articles('quotes', limit=5)
+
+    if articles:
+        print("Data Scrapped!")
+
+    else:
+        print("Error")
     
     for article in articles:
         # Step 2: Preprocess

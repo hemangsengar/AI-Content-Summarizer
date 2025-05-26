@@ -9,6 +9,8 @@ __pycache__
 
 note.txt
 
+.env
+
 #testing and learning
 test.py
 

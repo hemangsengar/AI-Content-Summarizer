@@ -37,7 +37,7 @@ def scrape_articles(site_name: str, limit: int = 5):
     url = config['start_page']
     while url and len(articles) < limit:
         fullURL = urljoin(config['base_url'],url)
-        print(f"Scrapping: {fullURL}")
+        print("Starting Scrapping Data!")
 
         response = requests.get(fullURL)
         soup = BeautifulSoup(response.text,"html.parser")
@@ -73,11 +73,11 @@ def scrape_articles(site_name: str, limit: int = 5):
     return articles
 
     
-
+'''
 if __name__ == "__main__":
     create_articles_table()
     articles = scrape_articles('quotes')
-    
+
     for article in articles:
         article_data = {
             'title': article['title'],
@@ -92,8 +92,7 @@ if __name__ == "__main__":
     
     print(f"Successfully stored {len(articles)} articles!")
     
- 
-    
+ '''
     
 
 
