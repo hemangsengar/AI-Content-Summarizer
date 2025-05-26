@@ -1,18 +1,28 @@
-
 from google import genai
 from google.genai import types
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
 
-# Load the .env file
 load_dotenv()
 api_key = os.getenv("API_KEY")
 
-client = genai.Client(api_key=api_key)
 
-response = client.models.generate_content(
-    model="gemini-2.0-flash",
-    contents="Explain how AI works in a few words",
-)
+def summarize_text(Input):
 
-print(response)
+    client = genai.Client(api_key= api_key)
+
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        config=types.GenerateContentConfig(
+            system_instruction="""
+            
+            -> You are an Expert in Summarising the Article/Content.
+            -> You are required to give summary to the Article/Content provided to you.
+            -> Limit the response to 4 to 5 lines.
+            
+            
+            """),
+            contents= f'{Input}'
+        )
+
+    return response.text

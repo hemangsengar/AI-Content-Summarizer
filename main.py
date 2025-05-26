@@ -1,6 +1,7 @@
 from database import *
 from scrap import *
 import re
+from Gemini import *
 
 
 
@@ -30,14 +31,16 @@ def main():
         cleaned_content = preprocess_text(article['content'])
         
         # Step 3: Summarize with Gemini
-        #summary = summarize_text(cleaned_content)
+        summary = summarize_text(cleaned_content)
+        
+
         
         # Step 4: Store in database
         article_data = {
             'title': article['title'],
             'author': article['author'],
             'content': cleaned_content,
-            'summary': None,
+            'summary': summary,
             'source_url': article['source_url']
         }
         store_article(article_data)
