@@ -44,6 +44,9 @@ Run the main script and follow the prompts:
 python main.py
 ```
 You will be asked to select a website to scrape.
+```bash
+Enter the site to scrape (e.g., 'quotes', 'thehackernews', etc.): 
+```
 
 ---
 
