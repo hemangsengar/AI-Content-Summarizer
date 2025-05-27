@@ -1,4 +1,4 @@
-# Content-Scrapping-and-Summarizing-Tool
+# Content-Scrapping-and-Summarizing-AI-Tool
 
 
 A Python project to scrape articles from supported websites, summarize them using Google Gemini, and store the results in a local SQLite database. Includes a CLI for summary retrieval.
