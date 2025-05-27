@@ -19,10 +19,10 @@ def main():
     create_articles_table()
     
     # Step 1: Scrape articles
+    site = input("Enter the site to scrape (e.g., 'quotes', 'thehackernews', etc.): ").strip()
     print("Starting Data Scrapping!")
-
-    articles = scrape_articles('quotes', limit=5)
-    print("Data Scrapped!")
+    articles = scrape_articles(site, limit=5)
+    
 
     if summarize_text:
         print("Summarising Content")
