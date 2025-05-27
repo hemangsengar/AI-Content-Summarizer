@@ -21,16 +21,12 @@ def main():
     # Step 1: Scrape articles
     print("Starting Data Scrapping!")
 
-    articles = scrape_articles('thehackernews', limit=5)
-
-    
+    articles = scrape_articles('quotes', limit=5)
     print("Data Scrapped!")
 
+    if summarize_text:
+        print("Summarising Content")
 
-    
-    
-
-    print("Summarising Content!")
 
     for article in articles:
         # Step 2: Preprocess

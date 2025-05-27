@@ -48,15 +48,19 @@ def scrape_articles(site_name: str, limit: int = 5):
             for quote in quote_blocks:
                 if len(articles) >= limit:
                     break
-                quote_text = quote.find('span', class_='text').text.strip()
-                author = quote.find('small', class_='author').text.strip()
-                articles.append({
-                    'title': quote_text[:25] + '...' if len(quote_text) > 25 else quote_text,
-                    'author': author,
-                    'content': quote_text,
-                    'source_url': full_url,
-                    'site': site_name
-                })
+                try:
+                    quote_text = quote.find('span', class_='text').text.strip()
+                    author = quote.find('small', class_='author').text.strip()
+                    articles.append({
+                        'title': quote_text[:25] + '...' if len(quote_text) > 25 else quote_text,
+                        'author': author,
+                        'content': quote_text,
+                        'source_url': full_url,
+                        'site': site_name
+                    })
+                    #print(f"Scraped: {quote_text[:25] + '...' if len(quote_text) > 25 else quote_text}")
+                except Exception as e:
+                    print(f"Error scraping {full_url}: {e}")
             next_li = soup.find('li', class_='next')
             next_btn = next_li.find('a') if next_li else None
             url = next_btn.get('href') if next_btn else None
@@ -90,7 +94,7 @@ def scrape_articles(site_name: str, limit: int = 5):
                         'source_url': link,
                         'site': site_name
                     })
-                    print(f"Scraped: {title}")
+                    #print(f"Scraped: {title}")
                 except Exception as e:
                     print(f"Error scraping {link}: {e}")
 

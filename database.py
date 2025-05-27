@@ -49,7 +49,7 @@ def get_summary_by_id(article_id: int):
 
 
 if __name__ == "__main__":
-    get_summary_by_id(article_id=1)
+    get_summary_by_id(article_id=10)
     
 
 

@@ -10,13 +10,14 @@ api_key = os.getenv("API_KEY")
 def summarize_text(Input):
 
     client = genai.Client(api_key= api_key)
-
+    
     response = client.models.generate_content(
         model="gemini-2.0-flash",
         config=types.GenerateContentConfig(
             system_instruction="""
             
-            -> You are an Expert in Summarising the Article/Content.
+            -> You are an Expert in Summarising the Article/Content for the Readers.
+            -> The summary should give Knowledge of the Article/Content in the summary.
             -> You are required to give summary to the Article/Content provided to you.
             -> Limit the response to 4 to 5 lines.
             
