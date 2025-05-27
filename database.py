@@ -46,10 +46,19 @@ def get_summary_by_id(article_id: int):
     conn.commit()
     conn.close()
 
+def get_all_summary():
+    conn = sqlite3.connect('articles.db')
+    c = conn.cursor()
+    c.execute('''SELECT id, summary FROM Data''')
+    result = c.fetchall()
+    conn.close()
+    print(result)
+
 
 
 if __name__ == "__main__":
-    get_summary_by_id(article_id=10)
+    get_all_summary()
+    
     
 
 
